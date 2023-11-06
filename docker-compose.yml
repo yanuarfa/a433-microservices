@@ -1,0 +1,37 @@
+# Menentukan versi dari docker compose
+version: "3.7"
+
+# Mendeklarasikan service yang akan digunakan 
+services:
+  # Mendeklarasikan service item-app
+  item-app:
+    # Menentukan image yang akan digunakan untuk service item-app
+    image: ghcr.io/yanuarfa/item-app:v1
+
+    # Menerapkan port mapping dari port 80 di host ke port 8080 di container
+    ports:
+      - 80:8080
+    
+    # Service item-app bergantung pada service item-db
+    depends_on:
+      - item-db
+
+    # Selalu restart ketika service item-app terhenti
+    restart: always
+
+  # Mendeklarasikan service item-db
+  item-db:
+    # Menentukan image yang akan digunakan untuk service item-db
+    image: mongo:3
+
+    # Menggunakan volume app-db untuk menyimpan data
+    volumes:
+      - app-db:/data/db
+
+    # Selalu restart ketika service item-db terhenti
+    restart: always
+
+# Deklarasi volume yang akan digunakan
+volumes:
+  # Deklarasi volume app-db
+  app-db:
