@@ -1,0 +1,26 @@
+# nama dari workflow
+name: karsajobs ui
+
+# digunakan untuk trigger workflow
+on:
+  push:
+    branches: [karsajobs-ui]
+  pull_request:
+    branches: [karsajobs-ui]
+
+# digunakan untuk menjalankan job
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Github Chekout
+        uses: actions/checkout@v2
+
+      - name: lint-dockerfile
+        uses: hadolint/hadolint-action@v3.1.0
+
+      - name: build-app-karsajobs-ui
+        run: ./build_push_image_karsajobs_ui.sh
+        env:
+          GHCR_TOKEN: ${{ secrets.GHCR_TOKEN }}
