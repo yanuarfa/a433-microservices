@@ -1,11 +1,14 @@
+# nama dari workflow
 name: karsajobs
 
+# digunakan untuk trigger workflow
 on:
   push:
     branches: [karsajobs]
   pull_request:
     branches: [karsajobs]
 
+# digunakan untuk menjalankan job
 jobs:
   build:
     runs-on: ubuntu-latest
