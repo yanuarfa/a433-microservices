@@ -1,0 +1,27 @@
+name: karsajobs
+
+on:
+  push:
+    branches: [karsajobs]
+  pull_request:
+    branches: [karsajobs]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Github Chekout
+        uses: actions/checkout@v2
+
+      - name: lint-dockerfile
+        uses: hadolint/hadolint-action@v3.1.0
+
+      - name: test-app
+        run: |
+          go test -v -short --count=1 $(go list ./...)
+
+      - name: build-app-karsajobs
+        run: ./build_push_image_karsajobs.sh
+        env:
+          GHCR_TOKEN: ${{ secrets.GHCR_TOKEN }}
