@@ -1,0 +1,26 @@
+# nama dari workflow
+name: shipping service
+
+# digunakan untuk trigger workflow
+on:
+  push:
+    branches: [shipping-service]
+  pull_request:
+    branches: [shipping-service]
+
+# digunakan untuk menjalankan job
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Github Chekout
+        uses: actions/checkout@v2
+
+      - name: lint-dockerfile
+        uses: hadolint/hadolint-action@v3.1.0
+
+      - name: build-app-shipping-service
+        run: ./build_push_image_shipping_service.sh
+        env:
+          GHCR_TOKEN: ${{ secrets.GHCR_TOKEN }}
