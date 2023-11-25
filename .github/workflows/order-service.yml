@@ -1,0 +1,26 @@
+# nama dari workflow
+name: order service
+
+# digunakan untuk trigger workflow
+on:
+  push:
+    branches: [order-service]
+  pull_request:
+    branches: [order-service]
+
+# digunakan untuk menjalankan job
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Github Chekout
+        uses: actions/checkout@v2
+
+      - name: lint-dockerfile
+        uses: hadolint/hadolint-action@v3.1.0
+
+      - name: build-app-order-service
+        run: ./build_push_image_order_service.sh
+        env:
+          GHCR_TOKEN: ${{ secrets.GHCR_TOKEN }}
